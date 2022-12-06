@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+<title> {% block title %}{{ parent() }} Cherche Film {% endblock %}</title>
+
+
+
+<section class="position-relative py-4 py-xl-5">
+    <div class="container position-relative">
+        <div class="row d-flex justify-content-center">
+            <div class="col-md-8 col-lg-6 col-xl-5 col-xxl-4">
+                <div class="card mb-5">
+                    <div class="card-body p-sm-5">
+                        <form method="get" action="recherche">
+                            <div class="mb-3"><input id="titre" class="form-control" type="text" name="titre" placeholder="Titre" /></div>
+                            <div class="mb-3"></div>
+                            <div class="mb-3"></div>
+                            <div><button class="btn btn-primary d-block w-100" href="" type="submit">Rechercher </button></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
