@@ -18,12 +18,12 @@
                 <div class="col-md-6">
                     <div class="text-white p-4 p-md-5">
                     
-                        <p>{{data[key]['title']}}</>
+                        <p>{{data[key]['name']}}</>
                         <p class="mb-4">
                             {{data[key]['overview']}}
     
                         </p>
-                        <div class="my-3"><a class="btn btn-primary btn-lg me-2" role="button" href="#">Télécharger</a><a class="btn btn-light btn-lg" role="button" href="#">Voir plus</a></div>
+                        <div class="my-3"><a class="btn btn-primary btn-lg me-2" role="button" href="#">Télécharger</a><a class="btn btn-light btn-lg" role="button" href="{{path('app_voirplus', {'idSerie':data[key].id})}}">Voir plus</a></div>
                     </div>
                 </div>
                 <div class="col-md-6 order-first order-md-last" style="min-height: 250px;"><img class="w-100 h-100 fit-cover" src="{{data[key]['backdrop_path']}}" /></div>
