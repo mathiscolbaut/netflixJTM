@@ -10,9 +10,9 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class RechercheController extends AbstractController
 {
-    /**
-     * @Route("/recherchefilm", name="app_recherchefilm")
-     */
+
+  
+    #[Route('/recherchefilm', name: 'app_recherchefilm')]
     public function index(): Response
     {
         $titre = $_GET["titre"];
@@ -27,7 +27,7 @@ class RechercheController extends AbstractController
        for ($i=0; $i < max(array_keys($result)) ; $i++) { 
             if(empty($result[$i]['title']))
             {
-                $result[$i]['title'] = $result[$i]['title'] = "fefzjfkjzenjfezkjnfzeenknk";
+                $result[$i]['title'] = $result[$i]['title'] = "Aucun Titre (Ne télécharge pas si tu ne veux pas voir ton compte BAN)";
             }
             if(empty($result[$i]['backdrop_path']))
             {
@@ -53,9 +53,10 @@ class RechercheController extends AbstractController
     }
 
 
- /**
-     * @Route("/rechercheserie", name="app_rechercheserie")
-     */
+ 
+   
+   
+    #[Route('/rechercheserie', name: 'app_rechercheserie')]
     public function serie(): Response
     {
         $titre = $_GET["titre"];
@@ -70,7 +71,7 @@ class RechercheController extends AbstractController
        for ($i=0; $i < max(array_keys($result)) ; $i++) { 
             if(empty($result[$i]['name']))
             {
-                $result[$i]['name'] = $result[$i]['name'] = "fefzjfkjzenjfezkjnfzeenknk";
+                $result[$i]['name'] = $result[$i]['name'] = "Aucun Titre (Ne télécharge pas si tu ne veux pas voir ton compte BAN)";
             }
             if(empty($result[$i]['backdrop_path']))
             {
@@ -104,12 +105,20 @@ class RechercheController extends AbstractController
      */
     public function voirplus(string $idSerie): Response
     {
-       
         
+        
+
+        $client = new CurlHttpClient();
+        
+        $response = $client->request('GET', 'https://api.themoviedb.org/3/tv/'.$idSerie.'?api_key=1d3427f37b6eee91dcbf8fd38e04f6c9&language=fr_FR',[ 'verify_peer' => false,]);
+        $content = $response->toArray();
+       
+        $seasons = $content['seasons'];
 
         return $this->render('recherche/voirplus.html.twig', [
             'controller_name' => 'RechercheController',
             'idSerie'=>$idSerie,
+            'seasons' => $seasons,
             
         ]);
     }
