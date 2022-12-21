@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "yggtorrent-api": "^1.0.4"
+  },
+  "devDependencies": {
+    "@symfony/webpack-encore": "^4.2.0"
+  }
+}

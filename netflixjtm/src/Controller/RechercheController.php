@@ -115,6 +115,25 @@ class RechercheController extends AbstractController
        
         $seasons = $content['seasons'];
 
+        for ($i=0; $i < max(array_keys($seasons)) ; $i++) { 
+            if(empty($seasons[$i]['name']))
+            {
+                $seasons[$i]['name'] = $seasons[$i]['name'] = "Aucun Titre (Ne télécharge pas si tu ne veux pas voir ton compte BAN)";
+            }
+            if(empty($seasons[$i]['poster_path']))
+            {
+                $seasons[$i]['poster_path'] = $seasons[$i]['poster_path'] = "https://media.giphy.com/media/baPIkfAo0Iv5K/giphy.gif";
+            }
+            else{
+                $seasons[$i]['poster_path']= "https://image.tmdb.org/t/p/w500/".$seasons[$i]['poster_path'];
+            }
+            if(empty($seasons[$i]['overview']))
+            {
+                $seasons[$i]['overview'] = $seasons[$i]['overview'] = "Il n'y a pas de description";
+                
+            }
+
+        }
         return $this->render('recherche/voirplus.html.twig', [
             'controller_name' => 'RechercheController',
             'idSerie'=>$idSerie,
