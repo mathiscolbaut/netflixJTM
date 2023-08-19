@@ -61,4 +61,9 @@ class DownloadController extends AbstractController
             'torrentData' => $torrentData,
         ]);
     }
+    #[Route('/downloadTorrent', name: 'app_downloadTorrent')]
+    public function downloadTorrent(): Response
+    {
+         echo '<p>Hello World</p>'; 
+    }
 }

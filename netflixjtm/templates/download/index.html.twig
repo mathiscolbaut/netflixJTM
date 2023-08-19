@@ -48,7 +48,10 @@
                                 <td class="text-truncate" style="max-width: 200px;">{{ torrent.name }}</td>
                                 <td class="text-truncate" style="max-width: 200px;">{{ torrent.size }}</td>
                                 <td>
-                                    <a href="http://127.0.0.1:3000/api/download?link={{ torrent.downloadurl }}">Download</a>
+                                       <form action="{{ path('app_downloadTorrent') }}" method="get">
+                                            <input type="hidden" name="link" value="{{ torrent.downloadurl }}">
+                                            <button type="submit">Download</button>
+                                        </form>
                                 </td>
                             </tr>
                         {% endfor %}
