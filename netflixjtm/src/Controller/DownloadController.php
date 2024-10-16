@@ -64,11 +64,12 @@ class DownloadController extends AbstractController
     #[Route('/downloadTorrent', name: 'app_downloadTorrent')]
     public function downloadTorrent(Request $request): Response
     {
-        // Récupérer l'URL de téléchargement depuis le formulaire
+        // Récupérer l'URL de téléchargement et le nom du torrent depuis le formulaire
         $downloadUrl = $request->query->get('link');
+        $torrentName = $request->query->get('name'); // Le nom réel du torrent est passé dans le formulaire
 
-        if (!$downloadUrl) {
-            return new Response('URL de téléchargement manquante', Response::HTTP_BAD_REQUEST);
+        if (!$downloadUrl || !$torrentName) {
+            return new Response('URL ou nom de téléchargement manquant', Response::HTTP_BAD_REQUEST);
         }
 
         // Faire la requête pour télécharger le fichier torrent
@@ -83,7 +84,7 @@ class DownloadController extends AbstractController
 
         // Définir le chemin où sauvegarder le fichier sur le serveur
         $savePath = $this->getParameter('kernel.project_dir') . '/public/torrents/';
-        $filename = basename($downloadUrl) . '.torrent'; // Nom du fichier torrent
+        $filename = str_replace(' ', '_', $torrentName) . '.torrent'; // Nom du fichier avec remplacement des espaces
 
         // Utiliser le composant Filesystem pour sauvegarder le fichier sur le serveur
         $filesystem = new Filesystem();
@@ -91,6 +92,7 @@ class DownloadController extends AbstractController
         $filesystem->dumpFile($savePath . $filename, $torrentContent);
 
         // Optionnel : Retourner une réponse ou un message de confirmation
-        return new Response('Fichier torrent téléchargé avec succès dans : ' . $savePath . $filename);
+        return new Response('Fichier torrent téléchargé avec succès sous le nom : ' . $filename);
     }
+
 }

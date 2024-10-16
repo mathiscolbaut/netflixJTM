@@ -45,8 +45,9 @@
                                 <td class="text-truncate" style="max-width: 200px;">{{ torrent.name }}</td>
                                 <td class="text-truncate" style="max-width: 200px;">{{ torrent.size | number_format(0, ',', ' ') }} octets</td>
                                 <td>
-                                    <form action="{{ path('app_downloadTorrent') }}" method="get">
-                                        <input type="hidden" name="link" value="{{ torrent.download_url }}">
+                                   <form action="{{ path('app_downloadTorrent') }}" method="get">
+                                        <input type="hidden" name="link" value="{{ torrent.download_url }}"> <!-- Lien de téléchargement -->
+                                        <input type="hidden" name="name" value="{{ torrent.name }}"> <!-- Nom réel du torrent -->
                                         <button type="submit" class="btn btn-primary">Télécharger</button>
                                     </form>
                                 </td>
