@@ -22,8 +22,9 @@ class DownloadController extends AbstractController
     #[Route('/download', name: 'app_download')]
     public function index(Request $request): Response
     {
+        dump($this->apiBaseUrl);
         $title = $request->query->get('title', 'Harry Potter'); // Par défaut, on utilise 'Harry Potter' si aucun titre n'est fourni.
-
+        
         // Préparer les paramètres pour l'API Sharewood
         $apiUrl = $this->apiBaseUrl . '/search?name=' . urlencode($title) . '&limit=25'; // Limite de 25 résultats par défaut
 

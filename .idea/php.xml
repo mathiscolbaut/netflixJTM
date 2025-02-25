@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="MessDetectorOptionsConfiguration">
+    <option name="transferred" value="true" />
+  </component>
+  <component name="PHPCSFixerOptionsConfiguration">
+    <option name="transferred" value="true" />
+  </component>
+  <component name="PHPCodeSnifferOptionsConfiguration">
+    <option name="highlightLevel" value="WARNING" />
+    <option name="transferred" value="true" />
+  </component>
+  <component name="PhpIncludePathManager">
+    <include_path>
+      <path value="$PROJECT_DIR$/netflixjtm/vendor/doctrine/lexer" />
+      <path value="$PROJECT_DIR$/netflixjtm/vendor/doctrine/annotations" />
+      <path value="$PROJECT_DIR$/netflixjtm/vendor/doctrine/inflector" />
+      <path value="$PROJECT_DIR$/netflixjtm/vendor/nikic/php-parser" />
+      <path value="$PROJECT_DIR$/netflixjtm/vendor/composer" />
+      <path value="$PROJECT_DIR$/netflixjtm/vendor/symfony/deprecation-contracts" />
+      <path value="$PROJECT_DIR$/netflixjtm/vendor/symfony/runtime" />
+      <path value="$PROJECT_DIR$/netflixjtm/vendor/symfony/cache-contracts" />
+      <path value="$PROJECT_DIR$/netflixjtm/vendor/symfony/polyfill-mbstring" />
+      <path value="$PROJECT_DIR$/netflixjtm/vendor/symfony/http-client-contracts" />
+      <path value="$PROJECT_DIR$/netflixjtm/vendor/symfony/polyfill-intl-normalizer" />
+      <path value="$PROJECT_DIR$/netflixjtm/vendor/symfony/routing" />
+      <path value="$PROJECT_DIR$/netflixjtm/vendor/symfony/http-client" />
+      <path value="$PROJECT_DIR$/netflixjtm/vendor/symfony/var-exporter" />
+      <path value="$PROJECT_DIR$/netflixjtm/vendor/psr/event-dispatcher" />
+      <path value="$PROJECT_DIR$/netflixjtm/vendor/symfony/dependency-injection" />
+      <path value="$PROJECT_DIR$/netflixjtm/vendor/symfony/polyfill-intl-grapheme" />
+      <path value="$PROJECT_DIR$/netflixjtm/vendor/symfony/cache" />
+      <path value="$PROJECT_DIR$/netflixjtm/vendor/psr/container" />
+      <path value="$PROJECT_DIR$/netflixjtm/vendor/symfony/polyfill-php73" />
+      <path value="$PROJECT_DIR$/netflixjtm/vendor/symfony/event-dispatcher-contracts" />
+      <path value="$PROJECT_DIR$/netflixjtm/vendor/psr/cache" />
+      <path value="$PROJECT_DIR$/netflixjtm/vendor/symfony/polyfill-php80" />
+      <path value="$PROJECT_DIR$/netflixjtm/vendor/psr/log" />
+      <path value="$PROJECT_DIR$/netflixjtm/vendor/symfony/config" />
+      <path value="$PROJECT_DIR$/netflixjtm/vendor/symfony/twig-bundle" />
+      <path value="$PROJECT_DIR$/netflixjtm/vendor/twig/twig" />
+      <path value="$PROJECT_DIR$/netflixjtm/vendor/symfony/apache-pack" />
+      <path value="$PROJECT_DIR$/netflixjtm/vendor/symfony/error-handler" />
+      <path value="$PROJECT_DIR$/netflixjtm/vendor/symfony/filesystem" />
+      <path value="$PROJECT_DIR$/netflixjtm/vendor/symfony/flex" />
+      <path value="$PROJECT_DIR$/netflixjtm/vendor/symfony/event-dispatcher" />
+      <path value="$PROJECT_DIR$/netflixjtm/vendor/symfony/console" />
+      <path value="$PROJECT_DIR$/netflixjtm/vendor/symfony/maker-bundle" />
+      <path value="$PROJECT_DIR$/netflixjtm/vendor/symfony/framework-bundle" />
+      <path value="$PROJECT_DIR$/netflixjtm/vendor/symfony/polyfill-php81" />
+      <path value="$PROJECT_DIR$/netflixjtm/vendor/symfony/var-dumper" />
+      <path value="$PROJECT_DIR$/netflixjtm/vendor/symfony/http-foundation" />
+      <path value="$PROJECT_DIR$/netflixjtm/vendor/symfony/service-contracts" />
+      <path value="$PROJECT_DIR$/netflixjtm/vendor/symfony/string" />
+      <path value="$PROJECT_DIR$/netflixjtm/vendor/symfony/http-kernel" />
+      <path value="$PROJECT_DIR$/netflixjtm/vendor/symfony/translation-contracts" />
+      <path value="$PROJECT_DIR$/netflixjtm/vendor/symfony/asset" />
+      <path value="$PROJECT_DIR$/netflixjtm/vendor/symfony/dotenv" />
+      <path value="$PROJECT_DIR$/netflixjtm/vendor/symfony/twig-bridge" />
+      <path value="$PROJECT_DIR$/netflixjtm/vendor/symfony/yaml" />
+      <path value="$PROJECT_DIR$/netflixjtm/vendor/symfony/finder" />
+      <path value="$PROJECT_DIR$/netflixjtm/vendor/twbs/bootstrap" />
+    </include_path>
+  </component>
+  <component name="PhpProjectSharedConfiguration" php_language_level="8.0">
+    <option name="suggestChangeDefaultLanguageLevel" value="false" />
+  </component>
+  <component name="PhpStanOptionsConfiguration">
+    <option name="transferred" value="true" />
+  </component>
+  <component name="PsalmOptionsConfiguration">
+    <option name="transferred" value="true" />
+  </component>
+</project>

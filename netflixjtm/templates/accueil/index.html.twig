@@ -1,20 +1,117 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello AccueilController!{% endblock %}
+{% block title %}Netflix Je T'aime - Accueil{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+{% endblock %}
 
 {% block body %}
 <style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+    .hero-section {
+        position: absolute;
+        top: 50%; /* Centre verticalement sur l'image */
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 100%;
+        text-align: center;
+        color: white;
+        z-index: 10;
+    }
+    .hero-section h1 {
+        font-size: 3rem;
+        font-weight: bold;
+        background: rgba(0, 0, 0, 0.5);
+        display: inline-block;
+        padding: 15px 25px;
+        border-radius: 10px;
+    }
+    .carousel-container {
+        height: 80vh;
+        overflow: hidden;
+        position: relative;
+    }
+    .carousel-item img {
+        width: 100%;
+        height: 80vh;
+        object-fit: cover;
+    }
+    .carousel-caption {
+        position: absolute;
+        bottom: 15px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 90%;
+        background: rgba(0, 0, 0, 0.7);
+        padding: 15px;
+        border-radius: 10px;
+    }
+    @media (max-width: 768px) {
+        .hero-section h1 {
+            font-size: 2rem;
+        }
+        .carousel-caption {
+            width: 100%;
+            font-size: 14px;
+            padding: 10px;
+        }
+    }
 </style>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+<div class="carousel-container position-relative">
+    <div class="hero-section">
+        <h1>Bienvenue sur Netflix Je T'aime</h1>
+    </div>
+    <div id="trendingCarousel" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+            {% for key, film in trending %}
+                <button type="button" data-bs-target="#trendingCarousel" data-bs-slide-to="{{ key }}" {% if key == 0 %}class="active"{% endif %}></button>
+            {% endfor %}
+        </div>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/Users/mathi/Desktop/netflixjtm/netflixJTM/netflixjtm/src/Controller/AccueilController.php'|file_link(0) }}">src/Controller/AccueilController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/Users/mathi/Desktop/netflixjtm/netflixJTM/netflixjtm/templates/accueil/index.html.twig'|file_link(0) }}">templates/accueil/index.html.twig</a></code></li>
-    </ul>
+        <div class="carousel-inner">
+            {% for key, film in trending %}
+            <div class="carousel-item {% if key == 0 %}active{% endif %}">
+                <img src="https://image.tmdb.org/t/p/original{{ film.backdrop_path }}" class="d-block w-100" alt="{{ film.title ?? film.name }}">
+                <div class="carousel-caption d-md-block">
+                    <h5>{{ film.title ?? film.name }}</h5>
+                    <p>{{ film.overview|slice(0, 100) }}...</p>
+                    <a href="#" class="btn btn-primary">Voir plus</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <button class="carousel-control-prev" type="button" data-bs-target="#trendingCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#trendingCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        </button>
+    </div>
 </div>
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Films Populaires</h2>
+    <div class="row">
+        {% for i in 1..6 %}
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <img src="https://source.unsplash.com/400x300/?cinema,{{ i }}" class="card-img-top" alt="Film {{ i }}">
+                <div class="card-body">
+                    <h5 class="card-title">Film {{ i }}</h5>
+                    <p class="card-text">Description rapide du film.</p>
+                    <a href="#" class="btn btn-danger">Regarder</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}
+
+{% block javascripts %}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 {% endblock %}
