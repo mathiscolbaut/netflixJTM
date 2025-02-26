@@ -61,12 +61,13 @@
                     </ul>
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a class="btn btn-primary me-2" href="#">S'enregistrer</a>
+                            <a class="btn btn-primary me-2" href="{{ path('app_signup') }}">S'enregistrer</a>
                         </li>
                         <li class="nav-item">
-                            <a class="btn btn-primary" href="#">Connexion</a>
+                            <a class="btn btn-primary" href="{{ path('app_login') }}">Connexion</a>
                         </li>
-                        <li class="nav-item dropdown ms-3">
+                        <!-- Mon Compte dropdown visible only if token is valid -->
+                        <li class="nav-item dropdown ms-3" id="accountMenu" style="display: none;">
                             <a class="nav-link dropdown-toggle btn btn-primary" href="#" id="accountDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Mon Compte
                             </a>
@@ -81,6 +82,30 @@
                 </div>
             </div>
         </nav>
+
         {% block body %}{% endblock %}
+
+        <script>
+            // Fonction pour vérifier la validité du token
+            function isTokenValid(token) {
+                try {
+                    const payload = JSON.parse(atob(token.split('.')[1])); // Décodage du payload
+                    const currentTime = Math.floor(Date.now() / 1000); // Temps actuel en secondes
+
+                    // Vérification de l'expiration du token
+                    return payload.exp > currentTime;
+                } catch (e) {
+                    return false; // Si le token est invalide ou corrompu
+                }
+            }
+
+            // Vérifier le token dans le localStorage
+            const token = localStorage.getItem("access_token");
+
+            if (token && isTokenValid(token)) {
+                // Si le token est valide, afficher le menu "Mon Compte"
+                document.getElementById('accountMenu').style.display = 'block';
+            }
+        </script>
     </body>
 </html>

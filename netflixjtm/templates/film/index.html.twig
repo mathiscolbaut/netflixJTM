@@ -1,22 +1,62 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}{{ parent() }} - Recherche de Films{% endblock %}
+
+{% block stylesheets %}
+<style>
+    .search-section {
+        height: 100vh;
+        background: url('https://source.unsplash.com/1600x900/?movies,cinema') no-repeat center center/cover;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+    }
+
+    .search-card {
+        background: rgba(0, 0, 0, 0.6);
+        backdrop-filter: blur(8px);
+        border-radius: 15px;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
+        color: white;
+    }
+
+    .search-input {
+        border-radius: 20px;
+        padding: 10px 20px;
+        font-size: 1.2rem;
+    }
+
+    .search-button {
+        border-radius: 20px;
+        padding: 10px;
+        font-weight: bold;
+        background-color: #007bff;
+        border: none;
+        transition: background-color 0.3s ease;
+    }
+
+    .search-button:hover {
+        background-color: #0056b3;
+    }
+</style>
+{% endblock %}
+
 {% block body %}
-
-<title> {% block title %}{{ parent() }} Cherche Film {% endblock %}</title>
-
-
-
-<section class="position-relative py-4 py-xl-5">
-    <div class="container position-relative">
-        <div class="row d-flex justify-content-center">
-            <div class="col-md-8 col-lg-6 col-xl-5 col-xxl-4">
-                <div class="card mb-5">
-                    <div class="card-body p-sm-5">
+<section class="search-section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6">
+                <div class="card search-card">
+                    <div class="card-body p-5">
+                        <h2 class="text-center mb-4">Rechercher un Film</h2>
                         <form method="get" action="recherchefilm">
-                            <div class="mb-3"><input id="titre" class="form-control" type="text" name="titre" placeholder="Titre" /></div>
-                            <div class="mb-3"></div>
-                            <div class="mb-3"></div>
-                            <div><button class="btn btn-primary d-block w-100" href="" type="submit">Rechercher </button></div>
+                            <div class="input-group">
+                                <input id="titre" name="titre" type="text" class="form-control search-input" placeholder="Entrez un titre de film..." required>
+                                <button class="btn btn-primary search-button" type="submit">
+                                    <i class="fa fa-search"></i> Rechercher
+                                </button>
+                            </div>
                         </form>
                     </div>
                 </div>
@@ -24,8 +64,9 @@
         </div>
     </div>
 </section>
+{% endblock %}
 
-
- 
-
+{% block javascripts %}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/js/all.min.js"></script>
 {% endblock %}
