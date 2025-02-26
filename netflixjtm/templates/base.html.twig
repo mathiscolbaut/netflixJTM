@@ -75,7 +75,7 @@
                                 <li><a class="dropdown-item" href="#">Mon Profil</a></li>
                                 <li><a class="dropdown-item" href="#">Mes Téléchargements</a></li>
                                 <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item text-danger" href="#">Déconnexion</a></li>
+                                <li><a class="dropdown-item text-danger" href="logout">Déconnexion</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -84,8 +84,8 @@
         </nav>
 
         {% block body %}{% endblock %}
-
         <script>
+           document.addEventListener('DOMContentLoaded', function() {
             // Fonction pour vérifier la validité du token
             function isTokenValid(token) {
                 try {
@@ -106,6 +106,7 @@
                 // Si le token est valide, afficher le menu "Mon Compte"
                 document.getElementById('accountMenu').style.display = 'block';
             }
+        });
         </script>
     </body>
 </html>

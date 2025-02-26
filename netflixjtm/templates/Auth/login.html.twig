@@ -28,6 +28,11 @@
         </div>
     </div>
 
+    <!-- Notification Popup -->
+    <div id="notification" class="notification" style="display: none; position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background-color: #28a745; color: white; padding: 10px 20px; border-radius: 10px; box-shadow: 0px 4px 6px rgba(0,0,0,0.1); font-size: 16px; z-index: 9999;">
+        Connexion réussie
+    </div>
+
     <script>
         document.querySelector('#loginForm').addEventListener('submit', function(event) {
             event.preventDefault();  // Empêcher la soumission classique du formulaire
@@ -49,17 +54,44 @@
             .then(response => response.json())
             .then(data => {
                 if (data.access_token) {
-                    alert('Connexion réussie');
-                    // Vous pouvez rediriger l'utilisateur après la connexion réussie
+                    // Afficher la notification
+                    let notification = document.getElementById('notification');
+                    notification.innerText = 'Connexion réussie';
+                    notification.style.backgroundColor = '#28a745'; // Vert pour succès
+                    notification.style.display = 'block';
+
+                    // Masquer la notification après 4 secondes
+                    setTimeout(() => {
+                        notification.style.display = 'none';
+                    }, 4000);
+
+                    // Enregistrer le token et rediriger
                     localStorage.setItem('access_token', data.access_token);
-                    window.location.href = '/'; // Remplacez par l'URL de redirection après connexion
+                    window.location.href = '/'; // Remplace par l'URL de redirection après connexion
                 } else {
-                    alert('Erreur de connexion');
+                    // Afficher la notification d'erreur
+                    let notification = document.getElementById('notification');
+                    notification.innerText = 'Erreur de connexion';
+                    notification.style.backgroundColor = '#dc3545'; // Rouge pour erreur
+                    notification.style.display = 'block';
+
+                    // Masquer la notification après 4 secondes
+                    setTimeout(() => {
+                        notification.style.display = 'none';
+                    }, 4000);
                 }
             })
             .catch(error => {
                 console.error('Erreur:', error);
-                alert('Erreur lors de la connexion');
+                let notification = document.getElementById('notification');
+                notification.innerText = 'Erreur lors de la connexion';
+                notification.style.backgroundColor = '#dc3545'; // Rouge pour erreur
+                notification.style.display = 'block';
+
+                // Masquer la notification après 4 secondes
+                setTimeout(() => {
+                    notification.style.display = 'none';
+                }, 4000);
             });
         });
     </script>

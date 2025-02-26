@@ -5,6 +5,7 @@ from models import User
 from database import SessionLocal
 from schemas import UserCreate, UserLogin, UserInDB
 from utils import hash_password, verify_password, create_access_token, verify_token
+from fastapi.security import OAuth2PasswordBearer
 
 # Création de l'application FastAPI
 app = FastAPI()
@@ -77,3 +78,14 @@ def login(user: UserLogin, db: Session = Depends(get_db)):
 @app.post("/logout")
 def logout():
     return {"msg": "You are now logged out!"}
+
+
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
+
+@app.get("/user")
+def get_user(token: str = Depends(oauth2_scheme)):
+    user_data = verify_token(token)
+    if user_data:
+        return {"user_data": user_data}
+    else:
+        raise HTTPException(status_code=401, detail="Token invalid or expired")

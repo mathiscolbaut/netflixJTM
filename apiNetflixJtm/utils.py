@@ -30,9 +30,19 @@ def create_access_token(data: dict, expires_delta: Union[timedelta, None] = None
     return encoded_jwt
 
 # Fonction pour vérifier un token JWT
-def verify_token(token: str):
+def verify_token(token: str) -> Union[dict, None]:
     try:
+        # Décoder le token et valider sa signature et son expiration
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-        return payload
-    except JWTError:
+        # Optionnellement, tu peux valider ici d'autres informations dans le payload
+        return payload  # Retourne les informations utilisateur du token
+
+    except JWTError as e:
+        # Si une erreur se produit, tu peux renvoyer plus de détails pour le débogage
+        print(f"JWTError: {e}")
+        return None  # Si le token est invalide ou expiré
+
+    except Exception as e:
+        # Gérer toute autre exception potentielle
+        print(f"Exception: {e}")
         return None

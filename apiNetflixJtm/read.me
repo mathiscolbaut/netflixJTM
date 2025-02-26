@@ -3,3 +3,23 @@
 
 
  pip install sqlalchemy databases passlib[bcrypt] python-jose
+
+
+
+Créé une migation changment de schéma BDD:
+alembic revision --autogenerate -m "Ajout de la colonne role"
+alembic upgrade head
+
+Gérer les versions des migrations
+Revenir en arrière : Si vous devez annuler une migration, vous pouvez utiliser :
+bash
+Copier
+alembic downgrade <révision>
+Par exemple, pour revenir à la version précédente :
+bash
+Copier
+alembic downgrade -1
+Voir les versions appliquées : Pour voir les versions appliquées à votre base de données, utilisez :
+bash
+Copier
+alembic history

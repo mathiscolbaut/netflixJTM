@@ -41,4 +41,12 @@ class AuthController extends AbstractController
         // Afficher la page de connexion
         return $this->render('auth/login.html.twig');
     }
+    /**
+     * @Route("/account", name="app_account")
+     */
+    public function account(Request $request): Response
+    {
+        // Afficher la page de profil, sans nécessiter de données côté serveur
+        return $this->render('auth/account.html.twig');
+    }
 }

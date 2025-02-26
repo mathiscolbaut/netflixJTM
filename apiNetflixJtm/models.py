@@ -8,4 +8,5 @@ class User(Base):  # L'héritage de Base ici
     username = Column(String(255), unique=True, index=True)  # Ajout d'une longueur pour le VARCHAR
     email = Column(String(255), unique=True, index=True)  # Ajout d'une longueur pour le VARCHAR
     hashed_password = Column(String(255))  # Ajout d'une longueur pour le VARCHAR
+    role = Column(Integer, default=0)  # Valeur par défaut pour 'role'
     is_active = Column(Boolean, default=True)
