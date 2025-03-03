@@ -151,8 +151,6 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     function downloadFilm(url, filename) {
-    console.log("Tentative de téléchargement :", url, filename);
-
     fetch('/download', {
         method: 'POST',
         headers: {
@@ -163,20 +161,52 @@ document.addEventListener("DOMContentLoaded", function() {
             'filename': filename
         })
     })
-    .then(response => {
-        console.log("Réponse reçue :", response);
-        return response.json();
-    })
+    .then(response => response.json())
     .then(data => {
-        console.log("Données reçues :", data);
         if (data.success) {
-            alert("Téléchargement réussi : " + data.path);
+            // Affiche une boîte de dialogue de confirmation stylée
+            const message = `📂 Téléchargement terminé !\n\nLe fichier est enregistré sous :\n${data.path}`;
+            showNativePopup("success", message);
         } else {
-            alert("Erreur : " + data.error);
+            showNativePopup("error", `⚠️ Erreur : ${data.error}`);
         }
     })
-    .catch(error => console.error('Erreur lors du téléchargement :', error));
+    .catch(error => {
+        console.error('Erreur lors du téléchargement :', error);
+        showNativePopup("error", "🚨 Une erreur critique est survenue !");
+    });
 }
+    function showNativePopup(type, message) {
+        const popup = document.createElement("div");
+        popup.innerText = message;
+        popup.style.position = "fixed";
+        popup.style.bottom = "20px";
+        popup.style.left = "50%";
+        popup.style.transform = "translateX(-50%)";
+        popup.style.padding = "15px";
+        popup.style.borderRadius = "8px";
+        popup.style.color = "#fff";
+        popup.style.fontSize = "16px";
+        popup.style.boxShadow = "0px 4px 8px rgba(0,0,0,0.2)";
+        popup.style.zIndex = "1000";
+        popup.style.transition = "opacity 0.3s ease-in-out";
+
+        // Définition des styles selon le type de message
+        if (type === "success") {
+            popup.style.backgroundColor = "#28a745"; // Vert pour succès
+        } else {
+            popup.style.backgroundColor = "#dc3545"; // Rouge pour erreur
+        }
+
+        document.body.appendChild(popup);
+
+        // Disparition après 3 secondes
+        setTimeout(() => {
+            popup.style.opacity = "0";
+            setTimeout(() => popup.remove(), 300);
+        }, 3000);
+    }
+
 });
 </script>
 

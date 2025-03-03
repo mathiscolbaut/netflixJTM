@@ -6,7 +6,7 @@ from database import SessionLocal
 from schemas import UserCreate, UserLogin, UserInDB
 from utils import hash_password, verify_password, create_access_token, verify_token
 from fastapi.security import OAuth2PasswordBearer
-
+from fastapi.security import OAuth2PasswordRequestForm
 # Création de l'application FastAPI
 app = FastAPI()
 
@@ -66,13 +66,16 @@ def signup(user: UserCreate, db: Session = Depends(get_db)):
 
 # Route de connexion
 @app.post("/login")
-def login(user: UserLogin, db: Session = Depends(get_db)):
-    db_user = db.query(User).filter(User.username == user.username).first()
-    if not db_user or not verify_password(user.password, db_user.hashed_password):
+def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
+    db_user = db.query(User).filter(User.username == form_data.username).first()
+    
+    if not db_user or not verify_password(form_data.password, db_user.hashed_password):
         raise HTTPException(status_code=400, detail="Invalid username or password")
     
     access_token = create_access_token(data={"sub": db_user.username})
+    
     return {"access_token": access_token, "token_type": "bearer"}
+
 
 # Route de déconnexion
 @app.post("/logout")

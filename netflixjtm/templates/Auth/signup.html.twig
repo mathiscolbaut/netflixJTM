@@ -11,21 +11,21 @@
                     <form id="signupForm">
                         <div class="mb-3">
                             <label for="username" class="form-label">Nom d'utilisateur</label>
-                            <input type="text" id="username" class="form-control form-control-lg" placeholder="Entrez votre nom d'utilisateur" style="border-radius: 10px; border: 1px solid #ccc; padding: 10px;">
+                            <input type="text" id="username" class="form-control form-control-lg" placeholder="Entrez votre nom d'utilisateur" required>
                         </div>
 
                         <div class="mb-3">
                             <label for="email" class="form-label">Adresse Email</label>
-                            <input type="email" id="email" class="form-control form-control-lg" placeholder="Entrez votre adresse email" style="border-radius: 10px; border: 1px solid #ccc; padding: 10px;">
+                            <input type="email" id="email" class="form-control form-control-lg" placeholder="Entrez votre adresse email" required>
                         </div>
 
                         <div class="mb-3">
                             <label for="password" class="form-label">Mot de passe</label>
-                            <input type="password" id="password" class="form-control form-control-lg" placeholder="Créez un mot de passe" style="border-radius: 10px; border: 1px solid #ccc; padding: 10px;">
+                            <input type="password" id="password" class="form-control form-control-lg" placeholder="Créez un mot de passe" required>
                         </div>
 
                         <div class="text-center">
-                            <button type="submit" class="btn btn-primary btn-lg w-100" style="border-radius: 10px; background-color: #007bff; border-color: #007bff;">S'inscrire</button>
+                            <button type="submit" class="btn btn-primary btn-lg w-100">S'inscrire</button>
                         </div>
                     </form>
                 </div>
@@ -33,50 +33,70 @@
         </div>
     </div>
 
+    <!-- Notification Popup -->
+    <div id="notification" class="notification" style="display: none; position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); padding: 10px 20px; border-radius: 10px; box-shadow: 0px 4px 6px rgba(0,0,0,0.1); font-size: 16px; z-index: 9999;">
+    </div>
+
     <script>
-       document.querySelector('#signupForm').addEventListener('submit', function(event) {
-            event.preventDefault();  // Empêcher la soumission classique du formulaire
+        document.querySelector('#signupForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Empêcher la soumission classique du formulaire
 
-            let usernameField = document.querySelector('#username');
-            let emailField = document.querySelector('#email');
-            let passwordField = document.querySelector('#password');
+            let username = document.querySelector('#username').value;
+            let email = document.querySelector('#email').value;
+            let password = document.querySelector('#password').value;
+            let notification = document.getElementById('notification');
 
-            if (usernameField && emailField && passwordField) {
-                let username = usernameField.value;
-                let email = emailField.value;
-                let password = passwordField.value;
-
-                // Envoyer la requête API
-                fetch('http://127.0.0.1:8086/signup', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        username: username,
-                        email: email,
-                        password: password
-                    })
-                })
-                .then(response => {
-                    if (!response.ok) {
-                        // Si la réponse n'est pas OK, rejeter avec le message d'erreur
-                        return response.json().then(errorData => {
-                            throw new Error(errorData.detail || 'Erreur inconnue');
-                        });
-                    }
-                    return response.json();  // Si la réponse est OK, continuer normalement
-                })
-                .then(data => {
-                    alert('Inscription réussie');
-                })
-                .catch(error => {
-                    alert('Erreur lors de l\'inscription: ' + error.message);
-                });
-            } else {
-                alert('Il manque des champs dans le formulaire');
+            // Vérifier que les champs sont remplis
+            if (!username || !email || !password) {
+                showNotification('Tous les champs sont requis', 'red');
+                return;
             }
+
+            // Envoyer la requête API pour l'inscription
+            fetch('http://127.0.0.1:8086/signup', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    username: username,
+                    email: email,
+                    password: password
+                })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    return response.json().then(errorData => {
+                        throw new Error(errorData.detail || 'Erreur inconnue');
+                    });
+                }
+                return response.json();
+            })
+            .then(data => {
+                showNotification('Inscription réussie, redirection...', 'green');
+                
+                // Rediriger après 3 secondes
+                setTimeout(() => {
+                    window.location.href = '/login';
+                }, 3000);
+            })
+            .catch(error => {
+                showNotification('Erreur: ' + error.message, 'red');
+            });
         });
 
+        // Fonction pour afficher une notification
+        function showNotification(message, color) {
+            let notification = document.getElementById('notification');
+            notification.innerText = message;
+            notification.style.backgroundColor = color;
+            notification.style.color = 'white';
+            notification.style.display = 'block';
+
+            // Masquer après 4 secondes
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 4000);
+        }
     </script>
 {% endblock %}
