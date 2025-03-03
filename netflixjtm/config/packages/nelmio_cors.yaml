@@ -1,0 +1,13 @@
+nelmio_cors:
+    defaults:
+        origin_regex: false
+        allow_origin: ['*']  # Autorise toutes les origines (peut être restreint à un domaine spécifique)
+        allow_methods: ['GET', 'POST', 'OPTIONS']  # Supprime PUT, PATCH et DELETE si inutiles
+        allow_headers: ['Content-Type', 'Authorization']
+        expose_headers: ['Link']
+        max_age: 3600
+    paths:
+        '^/search':  # Applique les règles aux routes commençant par /search
+            allow_origin: ['*']
+            allow_methods: ['GET']
+            allow_headers: ['Content-Type', 'Authorization']

@@ -1,72 +1,183 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ parent() }} - Recherche de Films{% endblock %}
+{% block title %}Netflix JTM - Recherche de Films{% endblock %}
 
 {% block stylesheets %}
 <style>
-    .search-section {
-        height: 100vh;
-        background: url('https://source.unsplash.com/1600x900/?movies,cinema') no-repeat center center/cover;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        position: relative;
-    }
-
-    .search-card {
-        background: rgba(0, 0, 0, 0.6);
-        backdrop-filter: blur(8px);
-        border-radius: 15px;
-        box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
-        color: white;
+    .search-container {
+        margin-top: 20px;
+        text-align: center;
     }
 
     .search-input {
-        border-radius: 20px;
-        padding: 10px 20px;
+        width: 50%;
+        padding: 10px;
         font-size: 1.2rem;
+        border-radius: 20px;
+        border: 1px solid #ddd;
     }
 
     .search-button {
+        padding: 10px 20px;
+        font-size: 1.2rem;
         border-radius: 20px;
-        padding: 10px;
-        font-weight: bold;
-        background-color: #007bff;
         border: none;
-        transition: background-color 0.3s ease;
+        background-color: #007bff;
+        color: white;
+        cursor: pointer;
     }
 
     .search-button:hover {
         background-color: #0056b3;
     }
+
+    .table-container {
+        margin-top: 20px;
+    }
+
+    .film-poster {
+        width: 80px;
+        border-radius: 5px;
+    }
+
+    .download-btn {
+        background-color: #28a745;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 5px;
+        transition: background 0.3s ease;
+    }
+
+    .download-btn:hover {
+        background-color: #218838;
+    }
 </style>
 {% endblock %}
 
 {% block body %}
-<section class="search-section">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-8 col-lg-6">
-                <div class="card search-card">
-                    <div class="card-body p-5">
-                        <h2 class="text-center mb-4">Rechercher un Film</h2>
-                        <form method="get" action="recherchefilm">
-                            <div class="input-group">
-                                <input id="titre" name="titre" type="text" class="form-control search-input" placeholder="Entrez un titre de film..." required>
-                                <button class="btn btn-primary search-button" type="submit">
-                                    <i class="fa fa-search"></i> Rechercher
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
+<div class="container">
+    <div class="search-container">
+        <input id="searchInput" type="text" class="search-input" placeholder="Recherchez un film ou une série...">
+        <button id="searchButton" class="search-button">
+            <i class="fa fa-search"></i> Rechercher
+        </button>
     </div>
-</section>
+
+    <div class="table-container">
+        <table class="table table-dark table-striped">
+            <thead>
+                <tr>
+                    <th>Affiche</th>
+                    <th>Titre</th>
+                    <th>Catégorie</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="filmTable">
+                <!-- Les résultats de recherche vont s'afficher ici -->
+            </tbody>
+        </table>
+    </div>
+</div>
 {% endblock %}
 
 {% block javascripts %}
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/js/all.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/js/all.min.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    let searchButton = document.getElementById('searchButton');
+    if (!searchButton) {
+        console.error("Erreur : L'élément 'searchButton' n'existe pas.");
+        return;
+    }
+
+    searchButton.addEventListener('click', function(event) {
+        event.preventDefault();
+
+        let query = document.getElementById('searchInput').value;
+        if (query.trim() === '') {
+            alert("Veuillez entrer un titre de film.");
+            return;
+        }
+
+        fetch('/search?titre=' + encodeURIComponent(query))
+            .then(response => response.json())
+            .then(data => {
+                let filmTable = document.getElementById('filmTable');
+                filmTable.innerHTML = '';
+
+                if (!data || data.length === 0) {
+                    filmTable.innerHTML = '<tr><td colspan="4" class="text-center">Aucun résultat trouvé.</td></tr>';
+                    return;
+                }
+
+                data.forEach(film => {
+                    let row = document.createElement('tr');
+
+                    let imgCell = document.createElement('td');
+                    let img = document.createElement('img');
+                    img.src = film.cover || "https://media.giphy.com/media/baPIkfAo0Iv5K/giphy.gif";
+                    img.classList.add('film-poster');
+                    imgCell.appendChild(img);
+                    row.appendChild(imgCell);
+
+                    let titleCell = document.createElement('td');
+                    titleCell.textContent = film.name || "Titre inconnu";
+                    row.appendChild(titleCell);
+
+                    let categoryCell = document.createElement('td');
+                    categoryCell.textContent = film.type || "Inconnue";
+                    row.appendChild(categoryCell);
+
+                    let actionCell = document.createElement('td');
+                    let downloadButton = document.createElement('button');
+                    downloadButton.classList.add('btn', 'btn-success');
+                    downloadButton.innerHTML = '<i class="fa fa-download"></i> Télécharger';
+                    downloadButton.addEventListener('click', function() {
+                        downloadFilm(film.download_url, film.name + ".torrent");
+                    });
+                    actionCell.appendChild(downloadButton);
+                    row.appendChild(actionCell);
+
+                    filmTable.appendChild(row);
+                });
+            })
+            .catch(error => {
+                console.error('Erreur lors de la requête API :', error);
+                alert("Une erreur est survenue. Vérifie que l'API est bien accessible.");
+            });
+    });
+
+    function downloadFilm(url, filename) {
+    console.log("Tentative de téléchargement :", url, filename);
+
+    fetch('/download', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: new URLSearchParams({
+            'url': url,
+            'filename': filename
+        })
+    })
+    .then(response => {
+        console.log("Réponse reçue :", response);
+        return response.json();
+    })
+    .then(data => {
+        console.log("Données reçues :", data);
+        if (data.success) {
+            alert("Téléchargement réussi : " + data.path);
+        } else {
+            alert("Erreur : " + data.error);
+        }
+    })
+    .catch(error => console.error('Erreur lors du téléchargement :', error));
+}
+});
+</script>
+
 {% endblock %}
